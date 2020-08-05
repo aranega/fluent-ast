@@ -1,6 +1,9 @@
 from ast import stmt, expr, mod, AST, iter_child_nodes, FunctionDef, Name
 
 
+"""
+This patched version automatically set the "parent" relationship.
+"""
 def init_patch_parent(self, *args, **kwargs):
     AST.__init__(self, *args, **kwargs)
     for node in iter_child_nodes(self):
