@@ -15,13 +15,13 @@ mod.__init__ = init_patch_parent
 
 from . import statements
 
-stmt.get_all_parents_function = statements.get_all_parents_function
+stmt.all_parents_function = statements.all_parents_function
 stmt.__contains__ = statements.contains
 
 
 from . import expression
 
-expr.get_all_parents_function = expression.get_all_parents_function
+expr.all_parents_function = expression.all_parents_function
 expr.__contains__ = expression.contains
 expr.get_scopes = expression.get_scopes
 expr.is_in_assign = expression.is_in_assign

@@ -2,7 +2,7 @@ from ast import expr, stmt, FunctionDef, AsyncFunctionDef, Lambda, Module, Class
 from .utils import get_all_parents_types
 
 
-def get_all_parents_function(self):
+def all_parents_function(self):
     yield from get_all_parents_types(self, (FunctionDef, AsyncFunctionDef, Lambda))
 
 
@@ -21,3 +21,7 @@ def get_scopes(self):
 
 def is_in_assign(self):
     return isinstance(next(get_all_parents_types(self, Assign), None), Assign)
+
+
+def get_top_statement(self):
+    return next(get_all_parents_types(self, stmt), None)
