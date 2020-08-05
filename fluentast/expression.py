@@ -1,4 +1,13 @@
-from ast import expr, stmt, FunctionDef, AsyncFunctionDef, Lambda, Module, ClassDef, Assign
+from ast import (
+    expr,
+    stmt,
+    FunctionDef,
+    AsyncFunctionDef,
+    Lambda,
+    Module,
+    ClassDef,
+    Assign,
+)
 from .utils import get_all_parents_types
 
 

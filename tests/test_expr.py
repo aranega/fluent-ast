@@ -47,7 +47,7 @@ def f5():
     ellipsis = module.body[0].body[0].body[0].body[0].body[0].body[0].value
     utils.set_parents(module)
     assert isinstance(ellipsis, ast.Ellipsis)
-    scopes = tuple(getattr(f, 'name', 'module') for f in ellipsis.get_scopes())
+    scopes = tuple(getattr(f, "name", "module") for f in ellipsis.get_scopes())
     assert ("f4", "A", "f3", "f2", "f1", "module") == scopes
     assert "f5" not in scopes
 

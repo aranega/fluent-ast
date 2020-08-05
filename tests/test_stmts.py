@@ -2,7 +2,7 @@ from fluentast import utils
 import ast
 
 
-def test__get_all_functions():
+def test__all_functions():
     funcs = """
 def f1():
     def f2():
