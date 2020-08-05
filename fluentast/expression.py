@@ -9,8 +9,9 @@ from ast import (
     Assign,
     iter_child_nodes,
     Name,
+    Load,
 )
-from .utils import get_all_parents_types
+from .utils import get_all_parents_types, assign, replace_node
 
 
 def all_parents_function(self):
@@ -65,3 +66,19 @@ def all_variable_use(self):
             yield child
         elif isinstance(child, expr):
             yield from child.all_variable_use()
+
+
+def extract(self, assign_name=None):
+    """
+    Extracts this expression from it's contained expression into an assignment, and auto insert a variable instead.
+    Returns a tuple with the new assignement node and the inserted variable reference.
+    """
+    name = assign_name if assign_name else f"@{id(self)}"
+    # creates the var ref and replace it
+    var_ref = Name(id=name, ctx=Load())
+    replace_node(self, var_ref)
+
+    # create the new assignment
+    new_assignement = assign(name, self)
+
+    return (new_assignement, var_ref)

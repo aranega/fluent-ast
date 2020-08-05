@@ -99,3 +99,49 @@ a + b + 5 + c if a in d else f
     assert variables[3].id == "b"
     assert variables[4].id == "c"
     assert variables[5].id == "f"
+
+
+def test__extract_controlled_name():
+    func = """
+def foo():
+    return 1 + 2 + 1
+assert foo() == 4
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+    ret = module.body[0].body[0]
+    ret_plus = module.body[0].body[0].value.left
+
+    assignement, var = ret_plus.extract(assign_name="a")
+    assert assignement.parent is None
+    assert ret_plus.parent is assignement
+    assert var.parent is ret.value
+
+    ret.insert(assignement, position='before')
+
+    ast.fix_missing_locations(module)
+    obj = compile(module, filename="<ast>", mode="exec")
+    eval(obj)
+
+
+def test__extract_uncontrolled_name():
+    func = """
+def foo():
+    return 1 + 2 + 1
+assert foo() == 4
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+    ret = module.body[0].body[0]
+    ret_plus = module.body[0].body[0].value.left
+
+    assignement, var = ret_plus.extract()
+    assert assignement.parent is None
+    assert ret_plus.parent is assignement
+    assert var.parent is ret.value
+
+    ret.insert(assignement, position='before')
+
+    ast.fix_missing_locations(module)
+    obj = compile(module, filename="<ast>", mode="exec")
+    eval(obj)

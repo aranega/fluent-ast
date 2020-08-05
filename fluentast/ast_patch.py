@@ -34,6 +34,7 @@ expr.get_scopes = expression.get_scopes
 expr.is_in_assign = expression.is_in_assign
 expr.top_statement = expression.top_statement
 expr.all_variable_use = expression.all_variable_use
+expr.extract = expression.extract
 
 
 from . import functions
