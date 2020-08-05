@@ -82,3 +82,20 @@ b = 5 if True else 0
     assert expr1.top_statement() is module.body[0]
     assert expr2.top_statement() is module.body[1]
     assert expr3.top_statement() is module.body[2]
+
+
+def test__all_variable_use():
+    exprs = """
+a + b + 5 + c if a in d else f
+"""
+    module = ast.parse(exprs)
+    utils.set_parents(module)
+    expr = module.body[0].value
+    variables = list(expr.all_variable_use())
+    assert len(variables) == 6
+    assert variables[0].id == 'a'
+    assert variables[1].id == 'd'
+    assert variables[2].id == 'a'
+    assert variables[3].id == 'b'
+    assert variables[4].id == 'c'
+    assert variables[5].id == 'f'
