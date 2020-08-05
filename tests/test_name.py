@@ -39,3 +39,12 @@ def foo(a, b=4, *args, **kwargs):
     assert variables[0].bound_parameter() == (foo, arg_b)
     assert variables[2].bound_parameter() == (foo, args)
     assert variables[3].bound_parameter() == (foo, kwargs)
+
+
+def test__bound_parameter_3():
+    func = """
+a = 5
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+    assert module.body[0].targets[0].bound_parameter() == (None, None)
