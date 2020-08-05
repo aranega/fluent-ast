@@ -38,7 +38,7 @@ def all_variable_use(self):
             yield from child.all_variable_use()
 
 
-def insert(self, statement, position="before", auto_assign=True, auto_assign_name=None):
+def insert(self, statement, position="before", auto_assign=True, assign_name=None):
     """
     Inserts a statement in a position relative to this statement.
     Possible positions are "before", "after", "instead".
@@ -49,7 +49,7 @@ def insert(self, statement, position="before", auto_assign=True, auto_assign_nam
     """
     if isinstance(statement, expr):
         if auto_assign:
-            name = auto_assign_name if auto_assign_name else f"@{id(statement)}"
+            name = assign_name if assign_name else f"@{id(statement)}"
             statement = assign(name, statement)
         else:
             statement = Expr(value=statement)

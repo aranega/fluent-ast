@@ -140,7 +140,7 @@ assert foo() == 4
     ret = module.body[0].body[0]
 
     expr = ast.parse("1 + 3").body[0].value
-    result = ret.insert(expr, auto_assign_name="a")
+    result = ret.insert(expr, assign_name="a")
     assert isinstance(result, ast.Assign)
     assert result is module.body[0].body[0]
     assert result.value is expr
