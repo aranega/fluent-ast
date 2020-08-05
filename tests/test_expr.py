@@ -66,3 +66,19 @@ b = 5 if True else 0
     assert expr1.is_in_assign() is True
     assert expr2.is_in_assign() is False
     assert expr3.is_in_assign() is True
+
+
+def test__top_statement():
+    exprs = """
+a = 1 + 2 + 3
+3 + 4 + 5
+b = 5 if True else 0
+    """
+    module = ast.parse(exprs)
+    utils.set_parents(module)
+    expr1 = module.body[0].value.left.left
+    expr2 = module.body[1].value.left.left
+    expr3 = module.body[2].value.test
+    assert expr1.top_statement() is module.body[0]
+    assert expr2.top_statement() is module.body[1]
+    assert expr3.top_statement() is module.body[2]

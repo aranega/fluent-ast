@@ -25,3 +25,4 @@ expr.all_parents_function = expression.all_parents_function
 expr.__contains__ = expression.contains
 expr.get_scopes = expression.get_scopes
 expr.is_in_assign = expression.is_in_assign
+expr.top_statement = expression.top_statement

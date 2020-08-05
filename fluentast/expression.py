@@ -23,5 +23,5 @@ def is_in_assign(self):
     return isinstance(next(get_all_parents_types(self, Assign), None), Assign)
 
 
-def get_top_statement(self):
+def top_statement(self):
     return next(get_all_parents_types(self, stmt), None)
