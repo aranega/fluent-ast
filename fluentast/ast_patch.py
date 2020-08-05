@@ -40,6 +40,8 @@ expr.extract = expression.extract
 from . import functions
 
 FunctionDef.all_variable_use = functions.all_variable_use
+FunctionDef.unconditional_returns = functions.unconditional_returns
+FunctionDef.unconditional_return = functions.unconditional_return
 
 
 from . import name
