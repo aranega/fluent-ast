@@ -23,6 +23,7 @@ from . import statements
 stmt.all_parents_function = statements.all_parents_function
 stmt.__contains__ = statements.contains
 stmt.all_variable_use = statements.all_variable_use
+stmt.insert = statements.insert
 
 
 from . import expression

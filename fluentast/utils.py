@@ -1,4 +1,4 @@
-from ast import iter_fields, iter_child_nodes, walk, stmt, expr, Expr
+from ast import iter_fields, iter_child_nodes, walk, stmt, expr, Expr, Name, Assign, Store
 
 
 def replace_node(old, new):
@@ -41,3 +41,19 @@ def get_all_parents_types(variable, types):
         if isinstance(current, types):
             yield current
         current = current.parent
+
+
+class BadPosition(Exception):
+    ...
+
+
+class BadASTNode(TypeError):
+    def __init__(self, expected, actual, *args, **kwargs):
+        self.expected = expected
+        self.actual = actual
+        msg = f"Bad AST node insertion, waiting for {expected.__name__} node, but get {actual.__name__} node instead"
+        super().__init__(msg, *args, **kwargs)
+
+
+def assign(name, expr):
+    return Assign(targets=[Name(id=name, ctx=Store())], value=expr)
