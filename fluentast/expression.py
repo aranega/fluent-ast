@@ -8,7 +8,7 @@ from ast import (
     ClassDef,
     Assign,
     iter_child_nodes,
-    Name
+    Name,
 )
 from .utils import get_all_parents_types
 

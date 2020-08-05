@@ -1,4 +1,12 @@
-from ast import expr, stmt, FunctionDef, AsyncFunctionDef, Lambda, iter_child_nodes, Name
+from ast import (
+    expr,
+    stmt,
+    FunctionDef,
+    AsyncFunctionDef,
+    Lambda,
+    iter_child_nodes,
+    Name,
+)
 from .utils import get_all_parents_types
 
 

@@ -93,9 +93,9 @@ a + b + 5 + c if a in d else f
     expr = module.body[0].value
     variables = list(expr.all_variable_use())
     assert len(variables) == 6
-    assert variables[0].id == 'a'
-    assert variables[1].id == 'd'
-    assert variables[2].id == 'a'
-    assert variables[3].id == 'b'
-    assert variables[4].id == 'c'
-    assert variables[5].id == 'f'
+    assert variables[0].id == "a"
+    assert variables[1].id == "d"
+    assert variables[2].id == "a"
+    assert variables[3].id == "b"
+    assert variables[4].id == "c"
+    assert variables[5].id == "f"
