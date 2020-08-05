@@ -3,7 +3,7 @@ from .utils import get_all_parents_types
 
 
 def get_all_parents_function(self):
-    return get_all_parents_types(self, (FunctionDef, AsyncFunctionDef, Lambda))
+    yield from get_all_parents_types(self, (FunctionDef, AsyncFunctionDef, Lambda))
 
 
 def contains(self, node):

@@ -1,9 +1,9 @@
-from ast import expr, stmt, FunctionDef, AsyncFunctionDef, Lambda
+from ast import expr, stmt, FunctionDef, AsyncFunctionDef, Lambda, Module, ClassDef, Assign
 from .utils import get_all_parents_types
 
 
 def get_all_parents_function(self):
-    return get_all_parents_types(self, (FunctionDef, AsyncFunctionDef, Lambda))
+    yield from get_all_parents_types(self, (FunctionDef, AsyncFunctionDef, Lambda))
 
 
 def contains(self, node):
@@ -11,3 +11,13 @@ def contains(self, node):
         if e is self:
             return True
     return False
+
+
+def get_scopes(self):
+    yield from get_all_parents_types(
+        self, (FunctionDef, AsyncFunctionDef, Module, ClassDef)
+    )
+
+
+def is_in_assign(self):
+    return isinstance(next(get_all_parents_types(self, Assign), None), Assign)
