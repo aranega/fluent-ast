@@ -13,9 +13,9 @@ def foo(a):
     foo = module.body[0]
     variables = list(foo.all_variable_use())
     assert variables[0].bound_parameter() == (None, None)
-    assert variables[1].bound_parameter() == (None, None)
     arg_a = foo.args.args[0]
-    assert variables[2].bound_parameter() == (foo, arg_a)
+    assert variables[1].bound_parameter() == (foo, arg_a)
+    assert variables[2].bound_parameter() == (None, None)
 
 
 def test__bound_parameter_2():
@@ -30,15 +30,15 @@ def foo(a, b=4, *args, **kwargs):
     utils.set_parents(module)
     foo = module.body[0]
     variables = list(foo.all_variable_use())
-    assert variables[1].bound_parameter() == (None, None)
     arg_a = foo.args.args[0]
-    assert variables[4].bound_parameter() == (foo, arg_a)
     arg_b = foo.args.args[1]
     args = foo.args.vararg
     kwargs = foo.args.kwarg
     assert variables[0].bound_parameter() == (foo, arg_b)
-    assert variables[2].bound_parameter() == (foo, args)
-    assert variables[3].bound_parameter() == (foo, kwargs)
+    assert variables[1].bound_parameter() == (foo, arg_a)
+    assert variables[2].bound_parameter() == (None, None)
+    assert variables[3].bound_parameter() == (foo, args)
+    assert variables[4].bound_parameter() == (foo, kwargs)
 
 
 def test__bound_parameter_3():

@@ -17,6 +17,7 @@ from . import statements
 
 stmt.all_parents_function = statements.all_parents_function
 stmt.__contains__ = statements.contains
+stmt.all_variable_use = statements.all_variable_use
 
 
 from . import expression
@@ -26,6 +27,7 @@ expr.__contains__ = expression.contains
 expr.get_scopes = expression.get_scopes
 expr.is_in_assign = expression.is_in_assign
 expr.top_statement = expression.top_statement
+expr.all_variable_use = expression.all_variable_use
 
 
 from . import functions

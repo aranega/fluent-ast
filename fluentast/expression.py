@@ -7,6 +7,8 @@ from ast import (
     Module,
     ClassDef,
     Assign,
+    iter_child_nodes,
+    Name
 )
 from .utils import get_all_parents_types
 
@@ -34,3 +36,11 @@ def is_in_assign(self):
 
 def top_statement(self):
     return next(get_all_parents_types(self, stmt), None)
+
+
+def all_variable_use(self):
+    for child in iter_child_nodes(self):
+        if isinstance(child, Name):
+            yield child
+        elif isinstance(child, expr):
+            yield from child.all_variable_use()
