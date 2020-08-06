@@ -1,4 +1,16 @@
-from ast import iter_fields, iter_child_nodes, walk, stmt, expr, Expr, Name, Assign, Store
+from ast import (
+    iter_fields,
+    iter_child_nodes,
+    walk,
+    stmt,
+    expr,
+    Expr,
+    Name,
+    Assign,
+    Store,
+    Constant,
+    Load,
+)
 
 
 def replace_node(old, new):
@@ -56,4 +68,27 @@ class BadASTNode(TypeError):
 
 
 def assign(name, expr):
+    # if name is None or name == "":
+    #     name = f"@{type(expr).__name__}_{id(expr)}"
     return Assign(targets=[Name(id=name, ctx=Store())], value=expr)
+
+
+def var_ref(name):
+    return Name(id=name, ctx=Load())
+
+
+def extract_all_subexpr(statement):
+    for field, value in iter_fields(statement):
+        if field in ("targets",):
+            continue
+        if isinstance(value, expr):
+            extract_all_subexpr_expr(value)
+
+
+def extract_all_subexpr_expr(expression, single_element_granularity=False):
+    if not single_element_granularity and isinstance(expression, (Name, Constant)):
+        return
+    for subexpr in iter_child_nodes(expression):
+        if isinstance(subexpr, expr):
+            extract_all_subexpr_expr(subexpr)
+    expression.extract(auto_insert=True)

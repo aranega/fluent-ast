@@ -117,7 +117,7 @@ assert foo() == 4
     assert ret_plus.parent is assignement
     assert var.parent is ret.value
 
-    ret.insert(assignement, position='before')
+    ret.insert(assignement, position="before")
 
     ast.fix_missing_locations(module)
     obj = compile(module, filename="<ast>", mode="exec")
@@ -140,7 +140,28 @@ assert foo() == 4
     assert ret_plus.parent is assignement
     assert var.parent is ret.value
 
-    ret.insert(assignement, position='before')
+    ret.insert(assignement, position="before")
+
+    ast.fix_missing_locations(module)
+    obj = compile(module, filename="<ast>", mode="exec")
+    eval(obj)
+
+
+def test__extract_autoinsert():
+    func = """
+def foo():
+    return 1 + 2 + 1
+assert foo() == 4
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+    ret = module.body[0].body[0]
+    ret_plus = module.body[0].body[0].value.left
+
+    assignement, var = ret_plus.extract(auto_insert=True)
+    assert assignement.parent is ret.parent
+    assert ret_plus.parent is assignement
+    assert var.parent is ret.value
 
     ast.fix_missing_locations(module)
     obj = compile(module, filename="<ast>", mode="exec")

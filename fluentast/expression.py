@@ -11,7 +11,7 @@ from ast import (
     Name,
     Load,
 )
-from .utils import get_all_parents_types, assign, replace_node
+from .utils import get_all_parents_types, assign, replace_node, var_ref
 
 
 def all_parents_function(self):
@@ -68,17 +68,22 @@ def all_variable_use(self):
             yield from child.all_variable_use()
 
 
-def extract(self, assign_name=None):
+def extract(self, assign_name=None, auto_insert=False):
     """
     Extracts this expression from it's contained expression into an assignment, and auto insert a variable instead.
     Returns a tuple with the new assignement node and the inserted variable reference.
+    The "auto_insert" option inserts the new assignement before the top statement of this expression.
     """
     name = assign_name if assign_name else f"@{id(self)}"
+
     # creates the var ref and replace it
-    var_ref = Name(id=name, ctx=Load())
-    replace_node(self, var_ref)
+    ref = var_ref(name)
+    replace_node(self, ref)
 
     # create the new assignment
     new_assignement = assign(name, self)
 
-    return (new_assignement, var_ref)
+    if auto_insert:
+        ref.top_statement().insert(new_assignement, position="before")
+
+    return (new_assignement, ref)

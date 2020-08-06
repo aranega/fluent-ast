@@ -45,7 +45,7 @@ def insert(self, statement, position="before", auto_assign=True, assign_name=Non
     This methods returns the inserted statement.
     If the statement is actually an expression, the node is automatically wrapped to an Expr node.
     In this case, if the "auto_assign" option is passed (default: True), it inserts an assignement with an auto generated name.
-    The assignement name can be controlled with the "auto_assign_name" parameter
+    The assignement name can be controlled with the "assign_name" parameter
     """
     if isinstance(statement, expr):
         if auto_assign:
