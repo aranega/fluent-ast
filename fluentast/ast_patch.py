@@ -47,3 +47,4 @@ FunctionDef.unconditional_return = functions.unconditional_return
 from . import name
 
 Name.bound_parameter = name.bound_parameter
+Name.first_assignment = name.first_assignment

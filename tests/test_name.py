@@ -48,3 +48,20 @@ a = 5
     module = ast.parse(func)
     utils.set_parents(module)
     assert module.body[0].targets[0].bound_parameter() == (None, None)
+
+
+def test__first_assign():
+    func = """
+b = 4
+a = 5
+a = a + b
+c
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+
+    var_ref = module.body[-2].value.left
+    assert var_ref.first_assignment() is module.body[1]
+
+    var_ref = module.body[-1].value
+    assert var_ref.first_assignment() is None
