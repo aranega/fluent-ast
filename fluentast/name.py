@@ -16,6 +16,9 @@ def bound_parameter(self):
 
 
 def first_assignment(self):
+    """
+    Returns the first assignment of this variable in the current bloc.
+    """
     fun, e = self.bound_parameter()
     if e:
         return None  # FIXME
@@ -26,4 +29,16 @@ def first_assignment(self):
             return statement
         elif statement is top_stmt:
             break
+    return None
+
+
+def next_assign(self):
+    """
+    Returns the next assignemnt of this variable in the current bloc.
+    """
+    top_stmt = self.top_statement()
+    i = top_stmt.parent.body.index(top_stmt)
+    for s in top_stmt.parent.body[i + 1:]:
+        if isinstance(s, Assign) and self.id in tuple(t.id for t in s.targets):
+            return s
     return None

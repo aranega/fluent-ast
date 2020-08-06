@@ -63,5 +63,24 @@ c
     var_ref = module.body[-2].value.left
     assert var_ref.first_assignment() is module.body[1]
 
+    var_ref = module.body[-2].value.right
+    assert var_ref.first_assignment() is module.body[0]
+
     var_ref = module.body[-1].value
     assert var_ref.first_assignment() is None
+
+
+def test__next_assign():
+    func = """
+a = 5
+b = 4
+a = a + b
+    """
+    module = ast.parse(func)
+    utils.set_parents(module)
+
+    var_ref = module.body[0].targets[0]
+    assert var_ref.next_assign() is module.body[-1]
+
+    var_ref = module.body[1].targets[0]
+    assert var_ref.next_assign() is None
